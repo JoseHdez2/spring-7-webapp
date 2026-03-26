@@ -1,11 +1,10 @@
 package guru.springframework.spring7webapp.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Publisher {
@@ -17,7 +16,18 @@ public class Publisher {
     private String address;
     private String city;
     private String state;
-    private String zip;
+    private String zipCode;
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
+
+    @OneToMany(mappedBy = "publisher")
+    private Set<Book> books = new HashSet<Book>();
 
     public Long getId() {
         return id;
@@ -59,12 +69,12 @@ public class Publisher {
         this.state = state;
     }
 
-    public String getZip() {
-        return zip;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public void setZip(String zip) {
-        this.zip = zip;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     @Override
@@ -72,7 +82,7 @@ public class Publisher {
         if (o == null || getClass() != o.getClass()) return false;
 
         Publisher publisher = (Publisher) o;
-        return Objects.equals(id, publisher.id) && Objects.equals(publisherName, publisher.publisherName) && Objects.equals(address, publisher.address) && Objects.equals(city, publisher.city) && Objects.equals(state, publisher.state) && Objects.equals(zip, publisher.zip);
+        return Objects.equals(id, publisher.id) && Objects.equals(publisherName, publisher.publisherName) && Objects.equals(address, publisher.address) && Objects.equals(city, publisher.city) && Objects.equals(state, publisher.state) && Objects.equals(zipCode, publisher.zipCode);
     }
 
     @Override
@@ -82,7 +92,7 @@ public class Publisher {
         result = 31 * result + Objects.hashCode(address);
         result = 31 * result + Objects.hashCode(city);
         result = 31 * result + Objects.hashCode(state);
-        result = 31 * result + Objects.hashCode(zip);
+        result = 31 * result + Objects.hashCode(zipCode);
         return result;
     }
 
@@ -94,7 +104,7 @@ public class Publisher {
                 ", address='" + address + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
-                ", zip='" + zip + '\'' +
+                ", zip='" + zipCode + '\'' +
                 '}';
     }
 }
